@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="O seu Jogo de Damas!">
+    <link rel="stylesheet" href="style.css">
+    <title>Jogo de Damas</title>
+</head>
+
+<body>
+    <div id="game-container">
+        <h1>Jogo de Damas</h1>
+        <div id="menu">
+            <button onclick="showDifficultySelection()">Single Player</button>
+            <button onclick="startLocalMultiplayer()">Multiplayer Local</button>
+            <button onclick="startGlobalMultiplayer()">Multiplayer Global</button>
+            <button onclick="showRules()">Regras</button>
+            <button onclick="saveGame()">Salvar Jogo</button>
+            <button onclick="loadGame()">Carregar Jogo</button>
+            <button onclick="resetGame()">Resetar Jogo</button>
+        </div>
+        <div id="difficulty-selection" style="display: none;">
+            <label for="difficulty" style="font-size: 20px;">Escolha a dificuldade:</label>
+            <select id="difficulty">
+                <option value="easy">Fácil</option>
+                <option value="medium">Médio</option>
+                <option value="hard">Difícil</option>
+            </select>
+            <button onclick="startSinglePlayer()">Iniciar</button>
+        </div>
+        <div id="timers">
+            <div id="blue-timer">Tempo Azul: 00:00</div>
+            <div id="red-timer">Tempo Vermelho: 00:00</div>
+        </div>
+        <div id="board"></div>
+        <div id="rules" style="display: none;">
+            <h2>Regras do Jogo</h2>
+            <ul>
+                <li>Movimentos permitidos são diagonais em casas escuras.</li>
+                <li>Captura de peças ocorre pulando sobre elas.</li>
+                <li>Peças que chegam ao lado oposto tornam-se damas.</li>
+                <li>Movimentos de captura são obrigatórios, quando possíveis.</li>
+                <li>Vence quem capturar todas as peças do oponente ou bloquear seus movimentos.</li>
+            </ul>
+            <button onclick="hideRules()">Fechar</button>
+        </div>
+        <div id="message"></div>
+    </div>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
