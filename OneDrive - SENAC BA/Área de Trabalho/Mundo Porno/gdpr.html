@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGPD - AdultFlix</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página RGPD */
+        
+        /* Melhorias na navegação */
+        .navbar-nav .nav-link.active {
+            position: relative;
+        }
+        
+        .navbar-nav .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 15%;
+            width: 70%;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        
+        /* Estilização do conteúdo RGPD */
+        .gdpr-section {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .gdpr-right {
+            background-color: rgba(44, 62, 80, 0.5);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gdpr-right li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .gdpr-right li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Banner GDPR */
+        .gdpr-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--dark-color);
+            padding: 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .gdpr-banner.show {
+            transform: translateY(0);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .gdpr-section {
+                border-left: none;
+                padding-left: 0;
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-film me-2"></i>AdultFlix
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-list me-1"></i> Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Orientações</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-venus-mars me-2"></i>Heterossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-mars-double me-2"></i>Homossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-transgender me-2"></i>Transgênero</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Catálogo</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>Brasileiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-crown me-2"></i>Coroas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-snowflake me-2"></i>Loiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Mamães</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sun me-2"></i>Morenas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-moon me-2"></i>Negras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-birthday-cake me-2"></i>Novinhas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2"></i>Ruivas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="most-viewed.html">
+                            <i class="fas fa-fire me-1"></i> Mais Vistos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="releases.html">
+                            <i class="fas fa-star me-1"></i> Lançamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="artists.html">
+                            <i class="fas fa-users me-1"></i> Artistas
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-premium me-2" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                        <i class="fas fa-crown me-2"></i>Assinar
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Conta
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Minha Conta</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Histórico</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Favoritos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="mb-0"><i class="fas fa-shield-alt me-3 text-primary"></i></h2>
+                    <h2 class="mb-0">Regulamento Geral sobre a Proteção de Dados (RGPD/GDPR)</h2>
+                </div>
+                
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <div class="gdpr-section">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-check-circle me-2 text-primary"></i>Nossa Conformidade com o RGPD</h4>
+                            <p style="color: white;">O AdultFlix está comprometido em cumprir integralmente o Regulamento Geral sobre a Proteção de Dados (RGPD) da União Europeia, que entrou em vigor em 25 de maio de 2018. Implementamos medidas rigorosas para garantir a proteção dos dados pessoais de todos os nossos usuários, independentemente de sua localização.</p>
+                        </div>
+                        
+                        <div class="gdpr-section">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-user-lock me-2 text-primary"></i>Seus Direitos sob o RGPD</h4>
+                            <p style="color: white;">Como usuário, você possui direitos robustos em relação aos seus dados pessoais:</p>
+                            <div class="gdpr-right">
+                                <ul style="color: white;">
+                                    <li><strong>Direito de Acesso:</strong> Solicitar uma cópia dos seus dados pessoais que armazenamos</li>
+                                    <li><strong>Direito de Retificação:</strong> Corrigir dados incompletos, desatualizados ou inexatos</li>
+                                    <li><strong>Direito ao Apagamento (Esquecimento):</strong> Solicitar a exclusão de seus dados pessoais</li>
+                                    <li><strong>Direito à Limitação do Processamento:</strong> Restringir como usamos seus dados em determinadas circunstâncias</li>
+                                    <li><strong>Direito à Portabilidade:</strong> Receber seus dados em formato estruturado e comumente usado</li>
+                                    <li><strong>Direito de Oposição:</strong> Opor-se ao processamento de seus dados para fins específicos</li>
+                                    <li><strong>Direito de não ser submetido a decisões automatizadas:</strong> Incluindo criação de perfis</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="gdpr-section">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-envelope me-2 text-primary"></i>Como Exercer Seus Direitos</h4>
+                            <p style="color: white;">Para exercer qualquer um desses direitos, entre em contato conosco através de:</p>
+                            <div class="alert alert-secondary">
+                                <ul class="mb-0" style="color: white;">
+                                    <li><a href="contact.html" class="alert-link"><i class="fas fa-link me-2"></i>Formulário de Contato Online</a></li>
+                                    <li><i class="fas fa-at me-2"></i>Email: <a href="mailto:privacidade@adultflix.com" class="alert-link">privacidade@adultflix.com</a></li>
+                                    <li><i class="fas fa-mail-bulk me-2"></i>Correspondência: [Endereço físico na UE]</li>
+                                </ul>
+                            </div>
+                            <p style="color: white;">Responderemos a todas as solicitações dentro do prazo legal de 30 dias.</p>
+                        </div>
+                        
+                        <div class="gdpr-section">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-user-tie me-2 text-primary"></i>Nosso Encarregado de Proteção de Dados</h4>
+                            <p style="color: white;">Designamos um Encarregado de Proteção de Dados (DPO) para supervisionar nossa conformidade com o RGPD:</p>
+                            <div class="bg-secondary p-3 rounded">
+                                <h5><i class="fas fa-id-card me-2"></i>Encarregado de Proteção de Dados</h5>
+                                <ul class="mb-0">
+                                    <li><i class="fas fa-at me-2"></i>Email: <a href="mailto:dpo@adultflix.com" class="text-white">dpo@adultflix.com</a></li>
+                                    <li><i class="fas fa-map-marker-alt me-2"></i>Endereço na UE: Rua da Proteção de Dados, 123, Lisboa, Portugal</li>
+                                    <li><i class="fas fa-phone me-2"></i>Telefone: +351 123 456 789</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="gdpr-section">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-globe-europe me-2 text-primary"></i>Transferências Internacionais de Dados</h4>
+                            <p style="color: white;">Seus dados podem ser transferidos para e processados em países fora da UE. Implementamos as seguintes medidas para garantir proteção adequada:</p>
+                            <ul style="color: white;">
+                                <li>Cláusulas contratuais padrão aprovadas pela Comissão Europeia</li>
+                                <li>Certificação Privacy Shield para transferências para os EUA (onde aplicável)</li>
+                                <li>Processamento apenas em países com adequação reconhecida pela UE</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="alert alert-primary mt-4">
+                            <h5><i class="fas fa-lock me-2"></i>Segurança de Dados</h5>
+                            <p>Implementamos medidas técnicas e organizacionais rigorosas para garantir um nível de segurança adequado ao risco:</p>
+                            <ul class="mb-0">
+                                <li>Criptografia AES-256 para dados em trânsito e em repouso</li>
+                                <li>Controles de acesso baseados em função (RBAC)</li>
+                                <li>Monitoramento contínuo e testes de penetração regulares</li>
+                                <li>Política de retenção de dados com prazos definidos</li>
+                                <li>Procedimentos de resposta a incidentes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-info-circle me-2"></i> Sobre</h5>
+                    <ul>
+                        <li><a href="about.html"><i class="fas fa-chevron-right me-2"></i>Sobre nós</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-right me-2"></i>Termos de serviço</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-right me-2"></i>Política de privacidade</a></li>
+                        <li><a href="dmca.html"><i class="fas fa-chevron-right me-2"></i>DMCA</a></li>
+                        <li><a href="2257.html"><i class="fas fa-chevron-right me-2"></i>2257 Declaração</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-question-circle me-2"></i> Ajuda</h5>
+                    <ul>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right me-2"></i>FAQ</a></li>
+                        <li><a href="support.html"><i class="fas fa-chevron-right me-2"></i>Suporte</a></li>
+                        <li><a href="report.html"><i class="fas fa-chevron-right me-2"></i>Reportar problema</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right me-2"></i>Feedback</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right me-2"></i>Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-gavel me-2"></i> Legal</h5>
+                    <ul>
+                        <li><a href="legal.html"><i class="fas fa-chevron-right me-2"></i>Aviso legal</a></li>
+                        <li><a href="cookies.html"><i class="fas fa-chevron-right me-2"></i>Política de cookies</a></li>
+                        <li><a href="copyright.html"><i class="fas fa-chevron-right me-2"></i>Direitos autorais</a></li>
+                        <li><a href="compliance.html"><i class="fas fa-chevron-right me-2"></i>Conformidade</a></li>
+                        <li><a href="gdpr.html"><i class="fas fa-chevron-right me-2"></i>RGPD</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-share-alt me-2"></i> Social</h5>
+                    <div class="social-icons mb-3">
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-reddit"></i></a>
+                    </div>
+                    
+                    <h5 class="mt-4"><i class="fas fa-language me-2"></i> Idioma</h5>
+                    <select class="form-select bg-dark text-white border-secondary mt-2">
+                        <option selected>Português (BR)</option>
+                        <option>English</option>
+                        <option>Español</option>
+                        <option>Français</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="copyright mt-4 pt-3">
+                <div class="text-center">
+                    <img src="imagens/logo.jpeg" alt="AdultFlix Logo" class="mb-3" style="height: 40px;">
+                </div>
+                <p class="text-center mb-2">© 2025 AdultFlix. Todos os direitos reservados.</p>
+                <p class="text-center mb-2">Criado por Nilson Gomes. Todos os modelos têm 18 anos ou mais no momento da filmagem.</p>
+                <p class="text-center text-muted small">
+                    <i class="fas fa-exclamation-circle me-1"></i> Este site é apenas para adultos e exige que você tenha 18 anos ou mais para acessar.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GDPR Consent Banner -->
+    <div class="gdpr-banner" id="gdprConsentBanner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <p class="mb-0">
+                        <i class="fas fa-cookie-bite me-2"></i> Nós usamos cookies e tecnologias semelhantes para melhorar sua experiência em nosso site. 
+                        Ao continuar navegando, você concorda com nossa <a href="privacy.html" class="text-primary">Política de Privacidade</a> 
+                        e <a href="cookies.html" class="text-primary">Política de Cookies</a>.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <button class="btn btn-sm btn-outline-light me-2" id="gdprCustomize">
+                        <i class="fas fa-sliders me-1"></i> Personalizar
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="gdprAccept">
+                        <i class="fas fa-check me-1"></i> Aceitar Todos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Preferences Modal -->
+    <div class="modal fade" id="cookiePreferencesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-cookie-bite me-2"></i>Preferências de Cookies</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="essentialCookies" checked disabled>
+                            <label class="form-check-label" for="essentialCookies">
+                                <strong>Cookies Essenciais</strong>
+                                <small class="d-block text-muted">Necessários para o funcionamento básico do site</small>
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="analyticsCookies">
+                            <label class="form-check-label" for="analyticsCookies">
+                                <strong>Cookies de Análise</strong>
+                                <small class="d-block text-muted">Nos ajudam a entender como você usa nosso site</small>
+                            </label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="marketingCookies">
+                            <label class="form-check-label" for="marketingCookies">
+                                <strong>Cookies de Marketing</strong>
+                                <small class="d-block text-muted">Usados para personalizar anúncios e conteúdo</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="alert alert-secondary">
+                        <i class="fas fa-info-circle me-2"></i> Suas preferências serão armazenadas por 12 meses ou até você limpar os cookies do seu navegador.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveCookiePreferences">
+                        <i class="fas fa-save me-1"></i> Salvar Preferências
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+
+// Category filter
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // In a real app, you would filter videos here
+        });
+    });
+        // GDPR Consent Management
+        document.addEventListener('DOMContentLoaded', function() {
+            const gdprBanner = document.getElementById('gdprConsentBanner');
+            const cookieModal = new bootstrap.Modal(document.getElementById('cookiePreferencesModal'));
+            
+            // Verificar se já existe consentimento
+            if(!localStorage.getItem('gdprConsent')) {
+                setTimeout(() => {
+                    gdprBanner.classList.add('show');
+                }, 1000);
+            }
+            
+            // Aceitar todos os cookies
+            document.getElementById('gdprAccept').addEventListener('click', function() {
+                localStorage.setItem('gdprConsent', 'all');
+                localStorage.setItem('cookiePreferences', JSON.stringify({
+                    essential: true,
+                    analytics: true,
+                    marketing: true
+                }));
+                gdprBanner.classList.remove('show');
+            });
+            
+            // Personalizar cookies
+            document.getElementById('gdprCustomize').addEventListener('click', function() {
+                cookieModal.show();
+            });
+            
+            // Salvar preferências personalizadas
+            document.getElementById('saveCookiePreferences').addEventListener('click', function() {
+                const preferences = {
+                    essential: true, // Sempre true (obrigatório)
+                    analytics: document.getElementById('analyticsCookies').checked,
+                    marketing: document.getElementById('marketingCookies').checked
+                };
+                
+                localStorage.setItem('gdprConsent', 'custom');
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                cookieModal.hide();
+                gdprBanner.classList.remove('show');
+                
+                // Aplicar preferências (exemplo)
+                if(preferences.analytics) {
+                    console.log('Cookies de análise ativados');
+                    // Carregar Google Analytics, etc.
+                }
+                
+                if(preferences.marketing) {
+                    console.log('Cookies de marketing ativados');
+                    // Carregar Facebook Pixel, etc.
+                }
+            });
+            
+            // Carregar preferências salvas no modal
+            if(localStorage.getItem('cookiePreferences')) {
+                const preferences = JSON.parse(localStorage.getItem('cookiePreferences'));
+                document.getElementById('analyticsCookies').checked = preferences.analytics;
+                document.getElementById('marketingCookies').checked = preferences.marketing;
+            }
+            
+            // RGPD - Botão para baixar dados
+            const downloadDataBtn = document.createElement('button');
+            downloadDataBtn.className = 'btn btn-outline-primary mt-3';
+            downloadDataBtn.innerHTML = '<i class="fas fa-download me-2"></i> Solicitar cópia dos meus dados';
+            downloadDataBtn.addEventListener('click', function() {
+                alert('Um email foi enviado para sua caixa de entrada com instruções para baixar seus dados.');
+            });
+            
+            // Adicionar botão na seção de direitos
+            document.querySelector('.gdpr-right').appendChild(downloadDataBtn);
+        });
+    </script>
+</body>
+</html>

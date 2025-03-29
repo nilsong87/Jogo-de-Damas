@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mais Vistos | AdultFlix</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .main-header {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(142, 68, 173, 0.8));
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .video-card {
+            background-color: var(--dark-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        
+        .video-info {
+            padding: 1rem;
+        }
+        
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3em;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #b3b3b3;
+        }
+        
+        .premium-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--warning-color);
+            color: black;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .top-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background-color: var(--danger-color);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 2;
+        }
+        
+        .views-count {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+        
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .filter-group {
+            background-color: var(--dark-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;            
+        }
+        
+        @media (max-width: 768px) {
+            .category-buttons {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+                justify-content: flex-start;
+            }
+            
+            .video-title {
+                height: auto;
+                -webkit-line-clamp: 3;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-film me-2"></i>AdultFlix
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-list me-1"></i> Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Orientações</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-venus-mars me-2"></i>Heterossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-mars-double me-2"></i>Homossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-transgender me-2"></i>Transgênero</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Catálogo</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Brasileiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-birthday-cake me-2"></i>Novinhas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Morenas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="most-viewed.html">
+                            <i class="fas fa-fire me-1"></i> Mais Vistos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="releases.html">
+                            <i class="fas fa-star me-1"></i> Lançamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="artists.html">
+                            <i class="fas fa-users me-1"></i> Artistas
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-premium me-2" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                        <i class="fas fa-crown me-2"></i>Assinar
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Conta
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Minha Conta</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Histórico</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Favoritos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Mais Vistos</h1>
+            <p class="lead">Os conteúdos mais populares desta semana</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container py-4">
+        <!-- Filter Section -->
+        <div class="filter-group">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Pesquisar vídeos..." style="background-color: #1e1e1e; border-color: #444; color: white;">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-buttons">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>Brasileiras</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-crown me-2"></i>Coroas</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-snowflake me-2"></i>Loiras</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Mamães</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sun me-2"></i>Morenas</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-moon me-2"></i>Negras</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-birthday-cake me-2"></i>Novinhas</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2"></i>Ruivas</a></li>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="row">
+            <!-- Video 1 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#1</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">1.5M visualizações</span>
+                        <span class="video-duration">25:10</span>
+                        <span class="premium-badge">PREMIUM</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Cena quente com a loira mais desejada</h5>
+                        <div class="video-meta">
+                            <span>Julia Silva</span>
+                            <span><i class="fas fa-heart text-danger"></i> 98%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 2 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#2</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">1.2M visualizações</span>
+                        <span class="video-duration">32:45</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Novinha brasileira em cena caseira</h5>
+                        <div class="video-meta">
+                            <span>Ana Santos</span>
+                            <span><i class="fas fa-heart text-danger"></i> 96%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 3 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#3</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">1.1M visualizações</span>
+                        <span class="video-duration">18:22</span>
+                        <span class="premium-badge">PREMIUM</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Morena sensual em vídeo exclusivo</h5>
+                        <div class="video-meta">
+                            <span>Fernanda Lima</span>
+                            <span><i class="fas fa-heart text-danger"></i> 97%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 4 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#4</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">980K visualizações</span>
+                        <span class="video-duration">28:15</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Ruiva fogosa em cena profissional</h5>
+                        <div class="video-meta">
+                            <span>Carolina Red</span>
+                            <span><i class="fas fa-heart text-danger"></i> 95%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 5 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#5</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">920K visualizações</span>
+                        <span class="video-duration">21:30</span>
+                        <span class="premium-badge">PREMIUM</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Mamãe gostosa mostra tudo</h5>
+                        <div class="video-meta">
+                            <span>Patrícia Souza</span>
+                            <span><i class="fas fa-heart text-danger"></i> 94%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video 6 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="video-card">
+                    <span class="top-badge">#6</span>
+                    <div class="video-thumbnail">
+                        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                        <span class="views-count">890K visualizações</span>
+                        <span class="video-duration">35:20</span>
+                    </div>
+                    <div class="video-info">
+                        <h5 class="video-title">Casal brasileiro em vídeo caseiro</h5>
+                        <div class="video-meta">
+                            <span>Marcela & Rodrigo</span>
+                            <span><i class="fas fa-heart text-danger"></i> 93%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                        <!-- Video 7 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#7</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">850K visualizações</span>
+                                    <span class="video-duration">19:45</span>
+                                    <span class="premium-badge">PREMIUM</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Morena do bumbum grande em ação</h5>
+                                    <div class="video-meta">
+                                        <span>Juliana Prado</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 96%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video 8 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#8</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">820K visualizações</span>
+                                    <span class="video-duration">24:10</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Loira do peito grande surpreende</h5>
+                                    <div class="video-meta">
+                                        <span>Vanessa Almeida</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 95%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video 9 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#9</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">790K visualizações</span>
+                                    <span class="video-duration">27:35</span>
+                                    <span class="premium-badge">PREMIUM</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Cena quente com a coroa mais gostosa</h5>
+                                    <div class="video-meta">
+                                        <span>Márcia Ferreira</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 94%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video 10 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#10</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">760K visualizações</span>
+                                    <span class="video-duration">22:50</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Novinha safada em vídeo exclusivo</h5>
+                                    <div class="video-meta">
+                                        <span>Larissa Mendes</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 96%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video 11 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#11</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">730K visualizações</span>
+                                    <span class="video-duration">30:15</span>
+                                    <span class="premium-badge">PREMIUM</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Morena do rabão em cena quente</h5>
+                                    <div class="video-meta">
+                                        <span>Priscila Oliveira</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 93%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Video 12 -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                            <div class="video-card">
+                                <span class="top-badge">#12</span>
+                                <div class="video-thumbnail">
+                                    <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
+                                    <span class="views-count">710K visualizações</span>
+                                    <span class="video-duration">19:20</span>
+                                </div>
+                                <div class="video-info">
+                                    <h5 class="video-title">Loira do olho azul surpreendente</h5>
+                                    <div class="video-meta">
+                                        <span>Camila Rocha</span>
+                                        <span><i class="fas fa-heart text-danger"></i> 95%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Próxima</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </main>
+            
+                <!-- Footer -->
+                <footer class="mt-5">
+                    <div class="container py-4">
+                        <div class="row">
+                            <div class="col-md-3 col-6 footer-links">
+                                <h5><i class="fas fa-info-circle me-2"></i> Sobre</h5>
+                                <ul>
+                                    <li><a href="about.html"><i class="fas fa-chevron-right me-2"></i>Sobre nós</a></li>
+                                    <li><a href="terms.html"><i class="fas fa-chevron-right me-2"></i>Termos de serviço</a></li>
+                                    <li><a href="privacy.html"><i class="fas fa-chevron-right me-2"></i>Política de privacidade</a></li>
+                                    <li><a href="dmca.html"><i class="fas fa-chevron-right me-2"></i>DMCA</a></li>
+                                    <li><a href="2257.html"><i class="fas fa-chevron-right me-2"></i>2257 Declaração</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-6 footer-links">
+                                <h5><i class="fas fa-question-circle me-2"></i> Ajuda</h5>
+                                <ul>
+                                    <li><a href="faq.html"><i class="fas fa-chevron-right me-2"></i>FAQ</a></li>
+                                    <li><a href="support.html"><i class="fas fa-chevron-right me-2"></i>Suporte</a></li>
+                                    <li><a href="report.html"><i class="fas fa-chevron-right me-2"></i>Reportar problema</a></li>
+                                    <li><a href="feedback.html"><i class="fas fa-chevron-right me-2"></i>Feedback</a></li>
+                                    <li><a href="contact.html"><i class="fas fa-chevron-right me-2"></i>Contato</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-6 footer-links">
+                                <h5><i class="fas fa-gavel me-2"></i> Legal</h5>
+                                <ul>
+                                    <li><a href="legal.html"><i class="fas fa-chevron-right me-2"></i>Aviso legal</a></li>
+                                    <li><a href="cookies.html"><i class="fas fa-chevron-right me-2"></i>Política de cookies</a></li>
+                                    <li><a href="copyright.html"><i class="fas fa-chevron-right me-2"></i>Direitos autorais</a></li>
+                                    <li><a href="compliance.html"><i class="fas fa-chevron-right me-2"></i>Conformidade</a></li>
+                                    <li><a href="gdpr.html"><i class="fas fa-chevron-right me-2"></i>RGPD</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-6 footer-links">
+                                <h5><i class="fas fa-share-alt me-2"></i> Social</h5>
+                                <div class="social-icons mb-3">
+                                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-telegram"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-reddit"></i></a>
+                                </div>
+                                
+                                <h5 class="mt-4"><i class="fas fa-language me-2"></i> Idioma</h5>
+                                <select class="form-select bg-dark text-white border-secondary mt-2">
+                                    <option selected>Português (BR)</option>
+                                    <option>English</option>
+                                    <option>Español</option>
+                                    <option>Français</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="copyright mt-4 pt-3">
+                            <div class="text-center">
+                                <img src="imagens/logo.jpeg" alt="AdultFlix Logo" class="mb-3" style="height: 40px;">
+                            </div>
+                            <p class="text-center mb-2">© 2025 AdultFlix. Todos os direitos reservados.</p>
+                            <p class="text-center mb-2">Criado por Nilson Gomes. Todos os modelos têm 18 anos ou mais no momento da filmagem.</p>
+                            <p class="text-center text-muted small">
+                                <i class="fas fa-exclamation-circle me-1"></i> Este site é apenas para adultos e exige que você tenha 18 anos ou mais para acessar.
+                            </p>
+                        </div>
+                    </div>
+                </footer>
+            
+                <!-- Bootstrap JS Bundle with Popper -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+
+// Category filter
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // In a real app, you would filter videos here
+        });
+    });
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Ativar/desativar botões de categoria
+                        const categoryButtons = document.querySelectorAll('.category-btn');
+                        categoryButtons.forEach(button => {
+                            button.addEventListener('click', function() {
+                                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                                this.classList.add('active');
+                                // Aqui você implementaria a filtragem real dos vídeos
+                            });
+                        });
+                        
+                        // Simular clique nos cards de vídeo
+                        const videoCards = document.querySelectorAll('.video-card');
+                        videoCards.forEach(card => {
+                            card.addEventListener('click', function() {
+                                // Verificar se é conteúdo premium
+                                const isPremium = this.querySelector('.premium-badge') !== null;
+                                
+                                if(isPremium) {
+                                    // Mostrar modal de assinatura se não for assinante
+                                    const subscriptionModal = new bootstrap.Modal(document.getElementById('subscriptionModal'));
+                                    subscriptionModal.show();
+                                } else {
+                                    // Redirecionar para a página do vídeo
+                                    window.location.href = 'video.html';
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </body>
+            </html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA - AdultFlix</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página DMCA */
+        .dmca-header {
+            background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .dmca-notice-box {
+            background-color: rgba(44, 62, 80, 0.8);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .btn-premium {
+            background-color: var(--warning-color);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .btn-premium:hover {
+            background-color: #e67e22;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-film me-2"></i>AdultFlix
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-list me-1"></i> Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Orientações</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-venus-mars me-2"></i>Heterossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-mars-double me-2"></i>Homossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-transgender me-2"></i>Transgênero</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Catálogo</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>Brasileiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-crown me-2"></i>Coroas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-snowflake me-2"></i>Loiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Mamães</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sun me-2"></i>Morenas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-moon me-2"></i>Negras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-birthday-cake me-2"></i>Novinhas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2"></i>Ruivas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="most-viewed.html">
+                            <i class="fas fa-fire me-1"></i> Mais Vistos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="releases.html">
+                            <i class="fas fa-star me-1"></i> Lançamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="artists.html">
+                            <i class="fas fa-users me-1"></i> Artistas
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-premium me-2" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                        <i class="fas fa-crown me-2"></i>Assinar
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Conta
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Minha Conta</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Histórico</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Favoritos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="dmca-header">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Política DMCA</h1>
+            <p class="lead">Proteção de direitos autorais e propriedade intelectual</p>
+        </div>
+    </header>
+
+    <main class="container mb-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <section class="mb-5">
+                            <h2 class="mb-4" style="color: #8e44ad;"><i class="fas fa-copyright me-2"></i>Digital Millennium Copyright Act</h2>
+                            <p style="color: white;">O AdultFlix respeita os direitos de propriedade intelectual e espera que nossos usuários façam o mesmo. Estamos em conformidade com o Digital Millennium Copyright Act (DMCA) e outros regulamentos aplicáveis.</p>
+                        </section>
+                        
+                        <section class="mb-5">
+                            <h2 class="mb-4" style="color: #8e44ad;"><i class="fas fa-exclamation-triangle me-2"></i>Notificação de Infração</h2>
+                            <p style="color: white;">Se você acredita que seu trabalho protegido por direitos autorais foi copiado de maneira que constitui violação, envie uma notificação para nosso agente designado:</p>
+                            
+                            <div class="dmca-notice-box" style="color: white;">
+                                <h5 class="mb-3">AdultFlix Copyright Agent</h5>
+                                <p><i class="fas fa-envelope me-2"></i> Email: dmca@adultflix.com</p>
+                                <p><i class="fas fa-map-marker-alt me-2"></i> Endereço: Av. Paulista, 1000, São Paulo - SP, Brasil</p>
+                            </div>
+                            
+                            <p class="mt-3"  style="color: #8e44ad;">Sua notificação deve incluir as seguintes informações:</p>
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item bg-dark">Assinatura física ou eletrônica do proprietário dos direitos autorais</li>
+                                <li class="list-group-item bg-dark">Identificação do trabalho alegadamente infringido</li>
+                                <li class="list-group-item bg-dark">Identificação do material alegadamente infringidor</li>
+                                <li class="list-group-item bg-dark">Suas informações de contato completas</li>
+                                <li class="list-group-item bg-dark">Declaração de boa fé de que o uso não foi autorizado</li>
+                                <li class="list-group-item bg-dark">Declaração sob pena de perjúrio de que a informação é precisa</li>
+                            </ol>
+                        </section>
+                        
+                        <section class="mb-5">
+                            <h2 class="mb-4" style="color: #8e44ad;"><i class="fas fa-reply me-2"></i>Contranotificação</h2>
+                            <p style="color: white;">Se você acredita que seu material foi removido por engano ou identificação incorreta, você pode enviar uma contranotificação contendo:</p>
+                            <ul class="list-group">
+                                <li class="list-group-item bg-dark">Sua assinatura física ou eletrônica</li>
+                                <li class="list-group-item bg-dark">Identificação do material removido</li>
+                                <li class="list-group-item bg-dark">Declaração sob pena de perjúrio de que você acredita de boa fé que o material foi removido por erro</li>
+                                <li class="list-group-item bg-dark">Seu nome, endereço e telefone</li>
+                                <li class="list-group-item bg-dark">Declaração de que você consente com a jurisdição do tribunal federal</li>
+                            </ul>
+                        </section>
+                        
+                        <div class="alert alert-secondary mt-4">
+                            <h4 style="color: #8e44ad;"><i class="fas fa-gavel me-2"></i>Aviso Legal</h4>
+                            <p class="mb-0"  style="color: #e67e22;">Ao enviar uma notificação falsa de violação de direitos autorais, você pode estar sujeito a responsabilidade civil e penal. Consulte um advogado antes de enviar qualquer notificação.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-info-circle me-2"></i> Sobre</h5>
+                    <ul>
+                        <li><a href="about.html"><i class="fas fa-chevron-right me-2"></i>Sobre nós</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-right me-2"></i>Termos de serviço</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-right me-2"></i>Política de privacidade</a></li>
+                        <li><a href="dmca.html"><i class="fas fa-chevron-right me-2"></i>DMCA</a></li>
+                        <li><a href="2257.html"><i class="fas fa-chevron-right me-2"></i>2257 Declaração</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-question-circle me-2"></i> Ajuda</h5>
+                    <ul>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right me-2"></i>FAQ</a></li>
+                        <li><a href="support.html"><i class="fas fa-chevron-right me-2"></i>Suporte</a></li>
+                        <li><a href="report.html"><i class="fas fa-chevron-right me-2"></i>Reportar problema</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right me-2"></i>Feedback</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right me-2"></i>Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-gavel me-2"></i> Legal</h5>
+                    <ul>
+                        <li><a href="legal.html"><i class="fas fa-chevron-right me-2"></i>Aviso legal</a></li>
+                        <li><a href="cookies.html"><i class="fas fa-chevron-right me-2"></i>Política de cookies</a></li>
+                        <li><a href="copyright.html"><i class="fas fa-chevron-right me-2"></i>Direitos autorais</a></li>
+                        <li><a href="compliance.html"><i class="fas fa-chevron-right me-2"></i>Conformidade</a></li>
+                        <li><a href="gdpr.html"><i class="fas fa-chevron-right me-2"></i>RGPD</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-share-alt me-2"></i> Social</h5>
+                    <div class="social-icons mb-3">
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-reddit"></i></a>
+                    </div>
+                    
+                    <h5 class="mt-4"><i class="fas fa-language me-2"></i> Idioma</h5>
+                    <select class="form-select bg-dark text-white border-secondary mt-2">
+                        <option selected>Português (BR)</option>
+                        <option>English</option>
+                        <option>Español</option>
+                        <option>Français</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="copyright mt-4 pt-3">
+                <div class="text-center">
+                    <img src="imagens/logo.jpeg" alt="AdultFlix Logo" class="mb-3" style="height: 40px;">
+                </div>
+                <p class="text-center mb-2">© 2025 AdultFlix. Todos os direitos reservados.</p>
+                <p class="text-center mb-2">Criado por Nilson Gomes. Todos os modelos têm 18 anos ou mais no momento da filmagem.</p>
+                <p class="text-center text-muted small">
+                    <i class="fas fa-exclamation-circle me-1"></i> Este site é apenas para adultos e exige que você tenha 18 anos ou mais para acessar.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script>// Category filter
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // In a real app, you would filter videos here
+            });
+        });</script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

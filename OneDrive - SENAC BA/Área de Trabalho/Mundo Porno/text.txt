@@ -1,0 +1,32 @@
+/adultflix/
+│
+├── public/                  # Arquivos públicos
+│   ├── assets/              # Imagens, vídeos, etc.
+│   │   ├── cat1.jpg         # Imagens de categorias
+│   │   ├── featured.jpg     # Vídeo em destaque
+│   │   └── thumb1.jpg       # Miniaturas de vídeos
+│   ├── favicon.ico          # Ícone do site
+│   └── index.html           # Página principal
+│
+├── src/                     # Código-fonte da aplicação
+│   ├── components/          # Componentes React/Vue
+│   ├── pages/               # Páginas da aplicação
+│   ├── store/               # Gerenciamento de estado (Redux/Vuex)
+│   ├── services/            # Serviços (API calls)
+│   ├── utils/               # Utilitários
+│   ├── App.js               # Componente principal
+│   └── main.js              # Ponto de entrada
+│
+├── server/                  # Backend
+│   ├── controllers/         # Lógica das rotas
+│   ├── models/              # Modelos de banco de dados
+│   ├── routes/              # Definição de rotas
+│   ├── middleware/          # Middlewares
+│   ├── config/              # Configurações
+│   └── server.js            # Ponto de entrada do servidor
+│
+├── styles/                  # Estilos globais
+│   ├── main.css             # Estilos principais
+│   └── components/          # Estilos por componente
+│
+└── package.json             # Dependências e scripts

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - AdultFlix</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos complementares não presentes no style.css original */
+        
+        /* Efeito hover para cards */
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Ícones no FAQ */
+        .accordion-button i {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        
+        /* Botão de suporte */
+        .support-btn {
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        /* Rodapé responsivo */
+        @media (max-width: 768px) {
+            .footer-links {
+                margin-bottom: 1.5rem;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+        }
+        
+        /* Efeito nos logos de parceiros */
+        .partner-logo {
+            transition: all 0.3s;
+            filter: grayscale(30%);
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        
+        /* Melhorias na navegação */
+        .navbar-nav .nav-link {
+            position: relative;
+        }
+        
+        .navbar-nav .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 15%;
+            width: 70%;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+        
+        /* Ajustes no accordion */
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(44, 62, 80, 0.9);
+        }
+        
+        .accordion-body {
+            line-height: 1.7;
+        }
+        
+        /* Botão premium */
+        .btn-premium {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-premium:hover {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            transform: translateY(-2px);
+        }
+
+        /* Melhorias visuais */
+        .faq-header {
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 15px;
+        }
+
+        .security-badge {
+            max-height: 40px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-film me-2"></i>AdultFlix
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-list me-1"></i> Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Orientações</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-venus-mars me-2"></i>Heterossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-mars-double me-2"></i>Homossexual</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-transgender me-2"></i>Transgênero</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Catálogo</h6></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i>Brasileiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-crown me-2"></i>Coroas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-snowflake me-2"></i>Loiras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Mamães</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sun me-2"></i>Morenas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-moon me-2"></i>Negras</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-birthday-cake me-2"></i>Novinhas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2"></i>Ruivas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="most-viewed.html">
+                            <i class="fas fa-fire me-1"></i> Mais Vistos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="releases.html">
+                            <i class="fas fa-star me-1"></i> Lançamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="artists.html">
+                            <i class="fas fa-users me-1"></i> Artistas
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-premium me-2" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                        <i class="fas fa-crown me-2"></i>Assinar
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Conta
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog me-2"></i>Minha Conta</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i>Histórico</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Favoritos</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+        <div class="d-flex align-items-center mb-4">
+            <h2 class="faq-header mb-0"><i class="fas fa-question-circle me-3"></i>Perguntas Frequentes</h2>
+        </div>
+        
+        <div class="accordion" id="faqAccordion">
+            <!-- Item 1 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        <i class="fas fa-credit-card me-2"></i> Como faço para assinar o AdultFlix?
+                    </button>
+                </h3>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p style="color: white;">Você pode assinar clicando no botão "Assinar" no topo do site e escolhendo um dos planos disponíveis. Oferecemos:</p>
+                        <ul style="color: white;">
+                            <li><strong>Plano Mensal:</strong> R$29,90/mês</li>
+                            <li><strong>Plano Trimestral:</strong> R$74,70 (economize 15%)</li>
+                            <li><strong>Plano Anual:</strong> R$239,00 (economize 30%)</li>
+                        </ul>
+                        <p class="mb-0" style="color: white;">Todos os planos oferecem acesso ilimitado a todo o conteúdo.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        <i class="fas fa-money-bill-wave me-2"></i> Quais métodos de pagamento são aceitos?
+                    </button>
+                </h3>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p style="color: white;">Aceitamos diversas formas de pagamento para sua conveniência:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul style="color: white;">
+                                    <li><i class="fab fa-cc-visa me-2"></i> Cartão Visa</li>
+                                    <li><i class="fab fa-cc-mastercard me-2"></i> Mastercard</li>
+                                    <li><i class="fab fa-cc-amex me-2"></i> American Express</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul style="color: white;">
+                                    <li><i class="fab fa-paypal me-2"></i> PayPal</li>
+                                    <li><i class="fas fa-barcode me-2"></i> PIX</li>
+                                    <li><i class="fab fa-bitcoin me-2"></i> Criptomoedas</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mt-2" style="color: white;"><i class="fas fa-lock me-2"></i> Todos os pagamentos são processados com segurança através de gateways criptografados.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        <i class="fas fa-lock me-2"></i> Meus dados estão seguros?
+                    </button>
+                </h3>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-secondary">
+                            <i class="fas fa-shield-alt me-2" style="color: white;"></i> Sua privacidade é nossa prioridade máxima.
+                        </div>
+                        <p style="color: white;">Implementamos várias medidas de segurança:</p>
+                        <ul style="color: white;">
+                            <li>Criptografia SSL de 256 bits em todas as transações</li>
+                            <li>Não armazenamos dados sensíveis de pagamento</li>
+                            <li>Processamento por gateways de pagamento certificados PCI DSS</li>
+                            <li>Proteção contra fraudes com monitoramento 24/7</li>
+                        </ul>
+                        <p style="color: white;">Seu histórico de visualização e preferências são mantidos de forma anônima e segura.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        <i class="fas fa-desktop me-2"></i> Em quais dispositivos posso assistir?
+                    </button>
+                </h3>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <div class="row text-center">
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-laptop fa-3x mb-2"></i>
+                                <p>Computadores</p>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-mobile-alt fa-3x mb-2"></i>
+                                <p>Celulares</p>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-tablet-alt fa-3x mb-2"></i>
+                                <p>Tablets</p>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-tv fa-3x mb-2"></i>
+                                <p>Smart TVs</p>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-gamepad fa-3x mb-2"></i>
+                                <p>Consoles</p>
+                            </div>
+                            <div class="col-4 col-md-2 mb-3" style="color: white;">
+                                <i class="fas fa-chromecast fa-3x mb-2"></i>
+                                <p>Chromecast</p>
+                            </div>
+                        </div>
+                        <p class="text-center mt-2" style="color: white;">Você pode assistir em até 3 dispositivos simultâneos com uma única conta.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                        <i class="fas fa-globe me-2"></i> O conteúdo está disponível no meu país?
+                    </button>
+                </h3>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"  style="color: white;">
+                    <div class="accordion-body">
+                        <p>Nosso catálogo completo está disponível na maioria dos países. Algumas restrições podem aplicar-se devido a regulamentações locais.</p>
+                        <div class="alert alert-secondary">
+                            <i class="fas fa-info-circle me-2"></i> Recomendamos verificar nossa <a href="coverage.html" class="alert-link">página de cobertura por região</a> para detalhes específicos.
+                        </div>
+                        <p>Países com restrições podem ter acesso a um catálogo adaptado que cumpre com as leis locais.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 6 -->
+            <div class="accordion-item bg-dark border-secondary mb-2">
+                <h3 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                        <i class="fas fa-ban me-2"></i> Como cancelar minha assinatura?
+                    </button>
+                </h3>
+                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" style="color: white;">
+                    <div class="accordion-body">
+                        <p>Você pode cancelar a qualquer momento sem taxas adicionais:</p>
+                        <ol>
+                            <li>Acesse <strong>"Minha Conta"</strong></li>
+                            <li>Navegue até <strong>"Configurações de Assinatura"</strong></li>
+                            <li>Selecione <strong>"Cancelar Assinatura"</strong></li>
+                            <li>Confirme sua decisão</li>
+                        </ol>
+                        <div class="alert alert-secondary mt-3">
+                            <i class="far fa-clock me-2"></i> Seu acesso permanecerá ativo até o final do período já pago.
+                        </div>
+                        <p>Você pode reativar sua conta a qualquer momento retomando sua assinatura.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card bg-dark mt-4 card-hover-effect">
+            <div class="card-body text-center">
+                <h4 class="mb-3" style="color: #8e44ad;"><i class="fas fa-headset me-2"></i> Não encontrou sua resposta?</h4>
+                <p class="mb-4" style="color: white;">Nossa equipe de suporte está disponível 24 horas por dia, 7 dias por semana para ajudar você.</p>
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <a href="support.html" class="btn btn-primary support-btn">
+                        <i class="fas fa-envelope me-2"></i> Enviar Mensagem
+                    </a>
+                    <a href="contact.html" class="btn btn-outline-primary support-btn">
+                        <i class="fas fa-phone-alt me-2"></i> Chat Online
+                    </a>
+                    <a href="tel:+5511999999999" class="btn btn-outline-secondary support-btn">
+                        <i class="fas fa-phone me-2"></i> Ligar Agora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-info-circle me-2"></i> Sobre</h5>
+                    <ul>
+                        <li><a href="about.html"><i class="fas fa-chevron-right me-2"></i>Sobre nós</a></li>
+                        <li><a href="terms.html"><i class="fas fa-chevron-right me-2"></i>Termos de serviço</a></li>
+                        <li><a href="privacy.html"><i class="fas fa-chevron-right me-2"></i>Política de privacidade</a></li>
+                        <li><a href="dmca.html"><i class="fas fa-chevron-right me-2"></i>DMCA</a></li>
+                        <li><a href="2257.html"><i class="fas fa-chevron-right me-2"></i>2257 Declaração</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-question-circle me-2"></i> Ajuda</h5>
+                    <ul>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right me-2"></i>FAQ</a></li>
+                        <li><a href="support.html"><i class="fas fa-chevron-right me-2"></i>Suporte</a></li>
+                        <li><a href="report.html"><i class="fas fa-chevron-right me-2"></i>Reportar problema</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-chevron-right me-2"></i>Feedback</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right me-2"></i>Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-gavel me-2"></i> Legal</h5>
+                    <ul>
+                        <li><a href="legal.html"><i class="fas fa-chevron-right me-2"></i>Aviso legal</a></li>
+                        <li><a href="cookies.html"><i class="fas fa-chevron-right me-2"></i>Política de cookies</a></li>
+                        <li><a href="copyright.html"><i class="fas fa-chevron-right me-2"></i>Direitos autorais</a></li>
+                        <li><a href="compliance.html"><i class="fas fa-chevron-right me-2"></i>Conformidade</a></li>
+                        <li><a href="gdpr.html"><i class="fas fa-chevron-right me-2"></i>RGPD</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-6 footer-links">
+                    <h5><i class="fas fa-share-alt me-2"></i> Social</h5>
+                    <div class="social-icons mb-3">
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i class="fab fa-reddit"></i></a>
+                    </div>
+                    
+                    <h5 class="mt-4"><i class="fas fa-language me-2"></i> Idioma</h5>
+                    <select class="form-select bg-dark text-white border-secondary mt-2">
+                        <option selected>Português (BR)</option>
+                        <option>English</option>
+                        <option>Español</option>
+                        <option>Français</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="copyright mt-4 pt-3">
+                <div class="text-center">
+                    <img src="imagens/logo.jpeg" alt="AdultFlix Logo" class="mb-3" style="height: 40px;">
+                </div>
+                <p class="text-center mb-2">© 2025 AdultFlix. Todos os direitos reservados.</p>
+                <p class="text-center mb-2">Criado por Nilson Gomes. Todos os modelos têm 18 anos ou mais no momento da filmagem.</p>
+                <p class="text-center text-muted small">
+                    <i class="fas fa-exclamation-circle me-1"></i> Este site é apenas para adultos e exige que você tenha 18 anos ou mais para acessar.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Category filter
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // In a real app, you would filter videos here
+        });
+    });
+        // Ativar tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        // Fechar mensagens de alerta após 5 segundos
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
