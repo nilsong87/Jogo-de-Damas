@@ -1,0 +1,17 @@
+endometriose-info/
+├── index.html
+├── css/
+│   ├── style.css
+│   └── bootstrap.min.css
+├── js/
+│   ├── script.js
+│   └── bootstrap.bundle.min.js
+├── img/
+│   ├── endometriose.jpg
+│   ├── tratamento1.jpg
+│   ├── tratamento2.jpg
+│   ├── doctor.jpg
+│   └── logo.png
+└── lib/
+    ├── fontawesome/
+    └── aos/
