@@ -1,0 +1,12 @@
+/*
+ * Configuração TypeScript do MusiConnect.
+ *
+ * Define opções de compilação, paths e regras de tipagem para o projeto.
+ * Altere conforme necessidade de tipagem ou estrutura.
+ */
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true
+  }
+}
