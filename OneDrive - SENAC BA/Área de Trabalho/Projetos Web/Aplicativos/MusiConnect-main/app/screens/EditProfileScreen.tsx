@@ -1,9 +1,3 @@
-/**
- * Tela de edição de perfil.
- *
- * Permite ao usuário editar suas informações pessoais, foto e preferências.
- * Use esta tela para atualizar dados do perfil.
- */
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Appbar, TextInput, Button, Avatar } from 'react-native-paper';
@@ -12,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileStackParamList } from '../navigation/ProfileStackNavigator';
 import * as ImagePicker from 'expo-image-picker';
 import { uploadMedia } from '../services/storageService';
+import { model } from '../services/geminiService'; // Importe o modelo
 
 type EditProfileScreenNavigationProp = NativeStackNavigationProp<ProfileStackParamList, 'EditProfile'>;
 
@@ -20,6 +15,8 @@ export default function EditProfileScreen({ navigation }: { navigation: EditProf
   const [name, setName] = useState(user?.name || '');
   const [handle, setHandle] = useState(user?.handle || '');
   const [avatar, setAvatar] = useState(user?.avatar || '');
+  const [bio, setBio] = useState(user?.bio || '');
+  const [prompt, setPrompt] = useState('');
   const [uploading, setUploading] = useState(false);
 
   const pickAvatar = async () => {
@@ -46,14 +43,35 @@ export default function EditProfileScreen({ navigation }: { navigation: EditProf
     }
   };
 
+  const generateBio = async () => {
+    if (!prompt.trim()) {
+      Alert.alert('Erro', 'Por favor, digite seus instrumentos e estilos.');
+      return;
+    }
+    try {
+      const result = await model.generateContent(`Crie uma bio curta e interessante para um músico com as seguintes características: ${prompt}`);
+      const response = result.response;
+      const generatedText = response.text();
+      setBio(generatedText);
+    } catch (e) {
+      console.error(e);
+      Alert.alert("Erro", "Não foi possível gerar a bio.");
+    }
+  };
+
   const handleSave = async () => {
     if (!name.trim() || !handle.trim()) {
       Alert.alert('Erro', 'Nome e @usuário não podem estar em branco.');
       return;
     }
-    await updateUser({ name, handle, avatar });
-    Alert.alert('Sucesso', 'Perfil atualizado.');
-    navigation.goBack();
+    try {
+      await updateUser({ name, handle, avatar, bio });
+      Alert.alert('Sucesso', 'Perfil atualizado.');
+      navigation.goBack();
+    } catch (error) {
+      console.error("Erro ao salvar perfil: ", error);
+      Alert.alert('Erro', 'Não foi possível salvar o perfil.');
+    }
   };
 
   return (
@@ -79,6 +97,21 @@ export default function EditProfileScreen({ navigation }: { navigation: EditProf
           value={handle}
           onChangeText={setHandle}
           style={styles.input}
+        />
+        <TextInput
+          label="Seus instrumentos e estilos"
+          value={prompt}
+          onChangeText={setPrompt}
+          style={styles.input}
+        />
+        <Button onPress={generateBio}>Gerar Bio com IA</Button>
+        <TextInput
+          label="Bio"
+          value={bio}
+          onChangeText={setBio}
+          style={styles.input}
+          multiline
+          numberOfLines={4}
         />
       </View>
     </View>

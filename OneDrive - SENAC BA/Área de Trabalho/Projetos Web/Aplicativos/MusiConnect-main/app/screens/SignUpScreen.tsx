@@ -1,10 +1,3 @@
-/**
- * Tela de cadastro de usuário.
- *
- * Permite ao usuário criar uma nova conta no MusiConnect.
- * Use esta tela para onboarding de novos usuários.
- */
-
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, Text, Appbar } from 'react-native-paper';
@@ -25,9 +18,14 @@ export default function SignUpScreen({ navigation }: { navigation: SignUpScreenN
       Alert.alert('Erro de Cadastro', 'Por favor, preencha todos os campos.');
       return;
     }
-    await register(name, email, password);
-    Alert.alert('Cadastro com Sucesso!', 'Você agora pode fazer o login.');
-    navigation.navigate('Login');
+    try {
+      await register(name, email, password);
+      Alert.alert('Cadastro com Sucesso!', 'Você agora pode fazer o login.');
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error("Erro ao cadastrar: ", error);
+      Alert.alert('Erro', 'Não foi possível cadastrar. Tente novamente.');
+    }
   };
 
   return (

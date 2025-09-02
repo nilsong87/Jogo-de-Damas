@@ -1,22 +1,9 @@
-/**
- * Componente PostCard
- *
- * Exibe um post com informações do autor, mídia, comentários e ações (editar, deletar, compartilhar).
- * Props:
- * - post: dados do post
- * - currentUser: usuário logado
- * - onEdit: função para editar post
- * - onDelete: função para deletar post
- * - onShare: função para compartilhar post
- *
- * Use este componente para renderizar posts no feed ou perfil.
- */
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, FlatList } from 'react-native';
+import { View, StyleSheet, TextInput, FlatList, Alert } from 'react-native';
 import { Card, Title, Paragraph, Avatar, Button, Subheading } from 'react-native-paper';
 import { Post, User } from '../context/AuthContext';
 import { getComments, addComment, Comment } from '../services/commentService';
-
+import { model } from '../services/geminiService'; // Importe o modelo
 
 interface PostCardProps {
     post: Post;
@@ -38,22 +25,46 @@ export default function PostCard({ post, currentUser, onEdit, onDelete, onShare 
 
     const fetchComments = async () => {
         setLoading(true);
-        const data = await getComments(post.id);
-        setComments(Array.isArray(data) ? data : []);
-        setLoading(false);
+        try {
+            const data = await getComments(post.id);
+            setComments(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error("Erro ao buscar comentários: ", error);
+            Alert.alert("Erro", "Não foi possível carregar os comentários.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleAddComment = async () => {
         if (!commentText.trim() || !currentUser) return;
         setLoading(true);
-        await addComment(post.id, {
-            author: currentUser,
-            text: commentText,
-            timestamp: new Date().toISOString(),
-        });
-        setCommentText('');
-        await fetchComments();
-        setLoading(false);
+        try {
+            await addComment(post.id, {
+                author: currentUser,
+                text: commentText,
+                timestamp: new Date().toISOString(),
+            });
+            setCommentText('');
+            await fetchComments();
+        } catch (error) {
+            console.error("Erro ao adicionar comentário: ", error);
+            Alert.alert("Erro", "Não foi possível adicionar o comentário.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const generateReply = async () => {
+        try {
+            const result = await model.generateContent(`Gere uma resposta curta e amigável para o seguinte post: "${post.text}"`);
+            const response = result.response;
+            const generatedText = response.text();
+            setCommentText(generatedText);
+        } catch (e) {
+            console.error(e);
+            Alert.alert("Erro", "Não foi possível gerar a resposta.");
+        }
     };
 
     return (
@@ -105,6 +116,7 @@ export default function PostCard({ post, currentUser, onEdit, onDelete, onShare 
                             onChangeText={setCommentText}
                             style={styles.commentInput}
                         />
+                        <Button onPress={generateReply}>Sugerir</Button>
                         <Button onPress={handleAddComment} loading={loading} disabled={!commentText.trim() || !currentUser}>
                             Comentar
                         </Button>

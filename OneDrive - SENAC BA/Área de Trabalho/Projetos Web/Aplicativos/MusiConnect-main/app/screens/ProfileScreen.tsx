@@ -1,11 +1,3 @@
-/**
- * Tela de perfil do usuário.
- *
- * Exibe informações, posts e grupos do usuário logado.
- * Use esta tela para visualizar e editar dados pessoais.
- */
-
-
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, FlatList } from 'react-native';
 import { Appbar, Avatar, Title, Subheading, Button, Divider } from 'react-native-paper';
@@ -72,21 +64,31 @@ export default function ProfileScreen({ navigation }: { navigation: ProfileScree
   }, [user]);
 
   const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Desculpe, precisamos da permissão da câmera para fazer isso funcionar!');
-      return;
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, aspect: [1, 1], quality: 1 });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      // Atualiza avatar no Firestore
-      await updateUser({ avatar: result.assets[0].uri });
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Desculpe, precisamos da permissão da câmera para fazer isso funcionar!');
+        return;
+      }
+      let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, aspect: [1, 1], quality: 1 });
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        // Atualiza avatar no Firestore
+        await updateUser({ avatar: result.assets[0].uri });
+      }
+    } catch (error) {
+      console.error("Erro ao escolher imagem: ", error);
+      Alert.alert('Erro', 'Não foi possível escolher a imagem.');
     }
   };
 
   const handleEditPost = (post: Post) => {
-    (navigation as any).navigate('EditPost', { postId: post.id });
+    try {
+      (navigation as any).navigate('EditPost', { postId: post.id });
+    } catch (error) {
+      console.error("Erro ao editar post: ", error);
+      Alert.alert("Erro", "Não foi possível editar o post.");
+    }
   };
 
   const handleAddFriend = () => {

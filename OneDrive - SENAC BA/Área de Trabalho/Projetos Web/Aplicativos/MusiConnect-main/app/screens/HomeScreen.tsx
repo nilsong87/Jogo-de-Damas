@@ -1,16 +1,9 @@
-/**
- * Tela inicial do MusiConnect.
- *
- * Exibe feed de posts, sugestões e atalhos principais.
- * Use esta tela como ponto de entrada do usuário autenticado.
- */
-
-
 import React from 'react';
-import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { View, StyleSheet, FlatList, SafeAreaView, Button, Alert } from 'react-native';
 import { Appbar, FAB } from 'react-native-paper';
 import { useAuth } from '../context/AuthContext';
 import PostCard from '../components/PostCard';
+import { model } from '../services/geminiService'; // Importe o modelo
 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 type HomeScreenNavigationProp = NativeStackNavigationProp<any>;
@@ -18,7 +11,24 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
   const { posts, user, deletePost, sharePost } = useAuth();
 
   const handleEditPost = (post: any) => {
-    navigation.navigate('EditPost', { postId: post.id });
+    try {
+      navigation.navigate('EditPost', { postId: post.id });
+    } catch (error) {
+      console.error("Erro ao editar post: ", error);
+      Alert.alert("Erro", "Não foi possível editar o post.");
+    }
+  };
+
+  const generateJoke = async () => {
+    try {
+      const result = await model.generateContent("Conte uma piada de programador.");
+      const response = result.response;
+      const text = response.text();
+      Alert.alert("Piada do Gemini:", text);
+    } catch (e) {
+      console.error(e);
+      Alert.alert("Erro", "Não foi possível gerar a piada.");
+    }
   };
 
   return (
@@ -26,6 +36,7 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
       <Appbar.Header>
         <Appbar.Content title="Feed MusiConnect" />
       </Appbar.Header>
+      <Button title="Gerar Piada" onPress={generateJoke} />
       <FlatList
         data={posts}
         renderItem={({ item }) => (

@@ -1,11 +1,5 @@
-/**
- * Tela de perfil de grupo.
- *
- * Exibe informações, membros e posts de um grupo específico.
- * Use esta tela para visualizar e interagir com grupos.
- */
 import React from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Text, Alert } from 'react-native';
 import { Appbar, Avatar, Title, Subheading, Button, Divider, Card, Paragraph, FAB } from 'react-native-paper';
 import { useAuth, Post } from '../context/AuthContext';
 import PostCard from '../components/PostCard'; // Import reusable component
@@ -41,8 +35,13 @@ export default function GroupProfileScreen({ route, navigation }: { route: any, 
   }
 
   const handleEditPost = (post: Post) => {
-      // Navigate to the root modal screen for editing
-      navigation.navigate('EditPost', { postId: post.id });
+      try {
+          // Navigate to the root modal screen for editing
+          navigation.navigate('EditPost', { postId: post.id });
+      } catch (error) {
+          console.error("Erro ao editar post: ", error);
+          Alert.alert("Erro", "Não foi possível editar o post.");
+      }
   }
 
   const renderItem = ({ item }: { item: Post | {type: string} }) => {

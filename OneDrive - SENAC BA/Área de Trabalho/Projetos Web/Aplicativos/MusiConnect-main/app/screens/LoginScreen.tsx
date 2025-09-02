@@ -1,9 +1,3 @@
-/**
- * Tela de login do usuário.
- *
- * Permite ao usuário acessar sua conta no MusiConnect.
- * Use esta tela para autenticação de usuários existentes.
- */
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert, Image } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
@@ -23,7 +17,12 @@ export default function LoginScreen({ navigation }: { navigation: LoginScreenNav
       Alert.alert('Erro de Login', 'Por favor, preencha os campos de email e senha.');
       return;
     }
-    await login(email, password);
+    try {
+      await login(email, password);
+    } catch (error) {
+      console.error("Erro ao fazer login: ", error);
+      Alert.alert('Erro', 'Não foi possível fazer login. Verifique suas credenciais.');
+    }
   };
 
   return (

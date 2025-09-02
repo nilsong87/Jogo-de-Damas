@@ -1,10 +1,3 @@
-/**
- * Tela de edição de post.
- *
- * Permite ao usuário editar o conteúdo de um post existente.
- * Use esta tela para atualizar posts já publicados.
- */
-
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, Text } from 'react-native';
 import { Appbar, TextInput, Button, Card, Avatar, IconButton } from 'react-native-paper';
@@ -31,24 +24,34 @@ export default function EditPostScreen({ navigation, route }: { navigation: Edit
     }
   }, [postToEdit]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!text.trim() && !image && !music) {
       Alert.alert('Erro', 'Você não pode deixar uma postagem vazia.');
       return;
     }
-    editPost(postId, { text, image, music });
-    navigation.goBack();
+    try {
+      await editPost(postId, { text, image, music });
+      navigation.goBack();
+    } catch (error) {
+      console.error("Erro ao salvar post: ", error);
+      Alert.alert('Erro', 'Não foi possível salvar o post.');
+    }
   };
 
   const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Desculpe, precisamos da permissão para acessar a galeria!');
-      return;
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, quality: 1 });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Desculpe, precisamos da permissão para acessar a galeria!');
+        return;
+      }
+      let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images, allowsEditing: true, quality: 1 });
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.error("Erro ao escolher imagem: ", error);
+      Alert.alert('Erro', 'Não foi possível escolher a imagem.');
     }
   };
   

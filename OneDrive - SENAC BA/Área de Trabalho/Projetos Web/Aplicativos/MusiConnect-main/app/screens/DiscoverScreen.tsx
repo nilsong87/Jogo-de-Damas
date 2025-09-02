@@ -1,14 +1,9 @@
-/**
- * Tela de descoberta de músicos, bandas e grupos.
- *
- * Permite ao usuário buscar e explorar novos perfis e grupos.
- * Use esta tela para ampliar conexões e oportunidades.
- */
-
-
 import React, { useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { Appbar, Searchbar, List, Chip, Text } from 'react-native-paper';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
+import { Appbar, Searchbar, List, Chip, Text, Button } from 'react-native-paper';
+import { useAuth } from '../context/AuthContext';
+import { model } from '../services/geminiService';
+
 // Mock data for discoverable items
 const discoverData = [
   { id: '1', type: 'user', title: 'Alice', styles: ['Pop'], instruments: ['Teclado'] },
@@ -30,51 +25,83 @@ const getIcon = (type: string) => {
     }
 }
 
-const getTranslatedType = (type: string) => {
-    switch (type) {
-        case 'song': return 'Música';
-        case 'artist': return 'Artista';
-        case 'user': return 'Usuário';
-        default: return type;
-    }
-}
-
 export default function DiscoverScreen() {
+  const { user, posts } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEstilo, setSelectedEstilo] = useState<string | null>(null);
   const [selectedInstrumento, setSelectedInstrumento] = useState<string | null>(null);
   const [filteredData, setFilteredData] = useState(discoverData);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
 
   const onChangeSearch = (query: string) => {
-    setSearchQuery(query);
-    filtrar(query, selectedEstilo, selectedInstrumento);
+    try {
+      setSearchQuery(query);
+      filtrar(query, selectedEstilo, selectedInstrumento);
+    } catch (error) {
+      console.error("Erro em onChangeSearch: ", error);
+    }
   };
 
   const filtrar = (query: string, estilo: string | null, instrumento: string | null) => {
-    let newData = discoverData;
-    if (query) {
-      const textData = query.toUpperCase();
-      newData = newData.filter((item) => item.title.toUpperCase().includes(textData));
+    try {
+      let newData = discoverData;
+      if (query) {
+        const textData = query.toUpperCase();
+        newData = newData.filter((item) => item.title.toUpperCase().includes(textData));
+      }
+      if (estilo) {
+        newData = newData.filter((item) => item.styles && item.styles.includes(estilo));
+      }
+      if (instrumento) {
+        newData = newData.filter((item) => item.instruments && item.instruments.includes(instrumento));
+      }
+      setFilteredData(newData);
+    } catch (error) {
+      console.error("Erro em filtrar: ", error);
     }
-    if (estilo) {
-      newData = newData.filter((item) => item.styles && item.styles.includes(estilo));
-    }
-    if (instrumento) {
-      newData = newData.filter((item) => item.instruments && item.instruments.includes(instrumento));
-    }
-    setFilteredData(newData);
   };
 
   const onSelectEstilo = (estilo: string) => {
-    const novo = selectedEstilo === estilo ? null : estilo;
-    setSelectedEstilo(novo);
-    filtrar(searchQuery, novo, selectedInstrumento);
+    try {
+      const novo = selectedEstilo === estilo ? null : estilo;
+      setSelectedEstilo(novo);
+      filtrar(searchQuery, novo, selectedInstrumento);
+    } catch (error) {
+      console.error("Erro em onSelectEstilo: ", error);
+    }
   };
 
   const onSelectInstrumento = (inst: string) => {
-    const novo = selectedInstrumento === inst ? null : inst;
-    setSelectedInstrumento(novo);
-    filtrar(searchQuery, selectedEstilo, novo);
+    try {
+      const novo = selectedInstrumento === inst ? null : inst;
+      setSelectedInstrumento(novo);
+      filtrar(searchQuery, selectedEstilo, novo);
+    } catch (error) {
+      console.error("Erro em onSelectInstrumento: ", error);
+    }
+  };
+
+  const generateRecommendations = async () => {
+    if (!user) {
+      Alert.alert("Erro", "Você precisa estar logado para gerar recomendações.");
+      return;
+    }
+
+    const userStyles = user.styles?.join(', ') || 'Nenhum';
+    const userInstruments = user.instruments?.join(', ') || 'Nenhum';
+    const userPosts = posts.slice(0, 5).map(p => p.text).join('\n');
+
+    const prompt = `Baseado em um músico que gosta dos estilos ${userStyles}, toca ${userInstruments} e postou sobre ${userPosts}, sugira 5 novos estilos musicais para ele explorar. Retorne apenas uma lista separada por vírgulas.`;
+
+    try {
+      const result = await model.generateContent(prompt);
+      const response = result.response;
+      const generatedText = response.text();
+      setRecommendations(generatedText.split(',').map(s => s.trim()));
+    } catch (e) {
+      console.error(e);
+      Alert.alert("Erro", "Não foi possível gerar as recomendações.");
+    }
   };
 
   return (
@@ -82,6 +109,17 @@ export default function DiscoverScreen() {
       <Appbar.Header>
         <Appbar.Content title="Descobrir" />
       </Appbar.Header>
+      <View style={styles.recommendationContainer}>
+        <Text style={styles.filterTitle}>Descubra Novos Estilos com IA</Text>
+        <Button onPress={generateRecommendations}>Gerar Recomendações</Button>
+        {recommendations.length > 0 && (
+          <View style={styles.chipContainer}>
+            {recommendations.map((rec) => (
+              <Chip key={rec} icon="music-note" style={styles.chip}>{rec}</Chip>
+            ))}
+          </View>
+        )}
+      </View>
       <Searchbar
         placeholder="Buscar por músicos, bandas, estilos..."
         onChangeText={onChangeSearch}
@@ -135,6 +173,11 @@ export default function DiscoverScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  recommendationContainer: {
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
   searchbar: {
     margin: 8,
